@@ -4,6 +4,9 @@ common:
   addPlant: Add plant
   backToPlants: Back to plants
   cancel: Cancel
+  theme:
+    switchToLight: Switch to light mode
+    switchToDark: Switch to dark mode
 
 plants:
   list:

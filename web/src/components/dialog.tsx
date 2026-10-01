@@ -19,7 +19,7 @@ export function Dialog({
 
   return (
     <div
-      className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 p-4"
+      className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 p-4 dark:bg-black/60"
       role="presentation"
       onClick={onClose}
     >
@@ -27,10 +27,10 @@ export function Dialog({
         role="dialog"
         aria-modal="true"
         aria-labelledby="dialog-title"
-        className="w-full max-w-sm rounded-lg bg-white p-6 shadow-lg"
+        className="w-full max-w-sm rounded-lg bg-white p-6 shadow-lg dark:bg-stone-900"
         onClick={(event) => event.stopPropagation()}
       >
-        <h2 id="dialog-title" className="text-lg font-semibold text-stone-900">
+        <h2 id="dialog-title" className="text-lg font-semibold text-stone-900 dark:text-stone-100">
           {title}
         </h2>
         {children}

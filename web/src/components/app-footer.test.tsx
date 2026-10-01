@@ -73,11 +73,11 @@ describe("AppFooter", () => {
     );
   });
 
-  it("uses the light-green surface token with a dark-mode fallback", () => {
+  it("uses the lighter-green surface token with a dark-mode fallback", () => {
     const { container } = render(<AppFooter />);
     const footer = container.querySelector("footer");
 
-    expect(footer).toHaveClass("bg-[var(--color-light-green)]");
+    expect(footer).toHaveClass("bg-[var(--color-lighter-green)]");
     expect(footer).toHaveClass("dark:bg-stone-900");
     expect(footer).toHaveClass("dark:border-stone-800");
   });

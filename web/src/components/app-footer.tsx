@@ -62,7 +62,7 @@ export function AppFooter() {
   const pathname = usePathname();
 
   return (
-    <footer className="fixed inset-x-0 bottom-0 z-40 border-t border-stone-200 bg-[var(--color-light-green)] pb-[env(safe-area-inset-bottom)] dark:border-stone-800 dark:bg-stone-900">
+    <footer className="fixed inset-x-0 bottom-0 z-40 border-t border-stone-200 bg-[var(--color-lighter-green)] pb-[env(safe-area-inset-bottom)] dark:border-stone-800 dark:bg-stone-900">
       <nav
         aria-label="Main"
         className="mx-auto flex max-w-3xl items-end justify-between gap-1 px-2 pt-2 pb-2"
@@ -75,7 +75,7 @@ export function AppFooter() {
                   key="logo"
                   href={item.href}
                   aria-label={t("common.home")}
-                  className="-mt-5 flex size-14 shrink-0 items-center justify-center rounded-full bg-[var(--color-light-green)] shadow-md ring-2 ring-emerald-700/20 transition hover:ring-emerald-700/40 dark:bg-stone-900 dark:ring-emerald-400/30 dark:hover:ring-emerald-400/60"
+                  className="-mt-5 flex size-14 shrink-0 items-center justify-center rounded-full bg-[var(--color-lighter-green)] shadow-md ring-2 ring-emerald-700/20 transition hover:ring-emerald-700/40 dark:bg-stone-900 dark:ring-emerald-400/30 dark:hover:ring-emerald-400/60"
                 >
                   <Logo className="size-10" />
                 </Link>

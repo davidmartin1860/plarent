@@ -1,7 +1,7 @@
 export interface Plant {
   id: string;
   name: string;
-  species: string | null;
+  species: string;
   location: string | null;
   acquiredDate: string | null;
   notes: string | null;
@@ -11,7 +11,7 @@ export interface Plant {
 
 export interface CreatePlantInput {
   name: string;
-  species?: string;
+  species: string;
   location?: string;
   acquiredDate?: string;
   notes?: string;

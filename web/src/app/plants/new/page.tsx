@@ -11,6 +11,7 @@ export default function NewPlantPage() {
         <Field
           label={t("plants.new.speciesLabel")}
           name="species"
+          required
           placeholder={t("plants.new.speciesPlaceholder")}
         />
         <Field

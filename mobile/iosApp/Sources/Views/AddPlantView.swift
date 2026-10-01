@@ -21,6 +21,7 @@ struct AddPlantView: View {
 
     private var isValid: Bool {
         !trimmedName.isEmpty && trimmedName.count <= 100
+            && !species.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
     }
 
     var body: some View {
@@ -66,7 +67,7 @@ struct AddPlantView: View {
 
         let input = CreatePlantInput(
             name: trimmedName,
-            species: nonEmpty(species),
+            species: species.trimmingCharacters(in: .whitespacesAndNewlines),
             location: nonEmpty(location),
             acquiredDate: nonEmpty(acquiredDate),
             notes: nonEmpty(notes)

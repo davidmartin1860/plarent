@@ -50,7 +50,7 @@ All clients (web, Android, iOS) talk to the same REST contract:
 {
   "id": "uuid",
   "name": "Monstera",
-  "species": "Monstera deliciosa",   // nullable
+  "species": "Monstera deliciosa",
   "location": "Living room window",  // nullable
   "acquiredDate": "2024-03-01",      // nullable, YYYY-MM-DD
   "notes": "Loves bright indirect light", // nullable
@@ -63,7 +63,7 @@ All clients (web, Android, iOS) talk to the same REST contract:
 // POST /api/plants request body
 {
   "name": "Monstera",      // required, 1-100 chars
-  "species": "...",        // optional
+  "species": "...",        // required, 1-150 chars
   "location": "...",       // optional
   "acquiredDate": "...",   // optional, YYYY-MM-DD
   "notes": "..."           // optional

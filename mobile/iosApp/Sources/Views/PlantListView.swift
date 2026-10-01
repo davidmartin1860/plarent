@@ -57,11 +57,9 @@ struct PlantListView: View {
                     VStack(alignment: .leading, spacing: 4) {
                         Text(plant.name)
                             .font(.headline)
-                        if let species = plant.species, !species.isEmpty {
-                            Text(species)
-                                .font(.subheadline)
-                                .foregroundStyle(.secondary)
-                        }
+                        Text(plant.species)
+                            .font(.subheadline)
+                            .foregroundStyle(.secondary)
                         if let location = plant.location, !location.isEmpty {
                             Text(location)
                                 .font(.caption)

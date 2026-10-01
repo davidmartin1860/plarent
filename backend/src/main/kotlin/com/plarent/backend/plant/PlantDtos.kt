@@ -9,7 +9,7 @@ import java.util.UUID
 data class PlantResponse(
     val id: UUID,
     val name: String,
-    val species: String?,
+    val species: String,
     val location: String?,
     val acquiredDate: LocalDate?,
     val notes: String?,
@@ -35,8 +35,9 @@ data class CreatePlantRequest(
     @field:Size(max = 100)
     val name: String,
 
+    @field:NotBlank
     @field:Size(max = 150)
-    val species: String? = null,
+    val species: String,
 
     @field:Size(max = 150)
     val location: String? = null,

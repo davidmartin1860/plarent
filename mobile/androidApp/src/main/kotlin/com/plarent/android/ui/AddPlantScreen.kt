@@ -112,7 +112,7 @@ fun AddPlantScreen(
             }
 
             Button(
-                enabled = name.isNotBlank() && !isSaving,
+                enabled = name.isNotBlank() && species.isNotBlank() && !isSaving,
                 onClick = {
                     errorMessage = null
                     isSaving = true
@@ -121,7 +121,7 @@ fun AddPlantScreen(
                             val created = repository.createPlant(
                                 CreatePlantRequest(
                                     name = name.trim(),
-                                    species = species.trim().ifBlank { null },
+                                    species = species.trim(),
                                     location = location.trim().ifBlank { null },
                                     acquiredDate = acquiredDate.trim().ifBlank { null },
                                     notes = notes.trim().ifBlank { null },

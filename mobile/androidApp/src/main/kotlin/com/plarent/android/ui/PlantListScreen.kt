@@ -111,9 +111,7 @@ private fun PlantCard(plant: Plant, onClick: () -> Unit) {
     ) {
         Column(modifier = Modifier.padding(16.dp)) {
             Text(text = plant.name, style = MaterialTheme.typography.titleMedium)
-            plant.species?.let {
-                Text(text = it, style = MaterialTheme.typography.bodyMedium)
-            }
+            Text(text = plant.species, style = MaterialTheme.typography.bodyMedium)
             plant.location?.let {
                 Text(text = it, style = MaterialTheme.typography.bodySmall)
             }

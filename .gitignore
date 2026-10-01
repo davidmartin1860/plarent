@@ -1,0 +1,47 @@
+# Environment
+.env
+.env.local
+
+# IDEs
+.idea/
+*.iml
+.vscode/
+
+# macOS
+.DS_Store
+
+# Gradle / Kotlin / JVM
+.gradle/
+**/build/
+!**/src/**/build/
+*.class
+.kotlin/
+
+# Android
+mobile/androidApp/.cxx/
+mobile/**/captures/
+local.properties
+*.apk
+*.aab
+
+# Xcode / iOS
+# project.yml is the source of truth (XcodeGen); the generated .xcodeproj is not committed.
+mobile/iosApp/*.xcodeproj/
+mobile/iosApp/**/xcuserdata/
+mobile/iosApp/build/
+mobile/iosApp/DerivedData/
+*.hmap
+*.ipa
+
+# Node / Next.js
+web/node_modules/
+web/.next/
+web/out/
+web/npm-debug.log*
+web/.env*.local
+
+# Postgres local data volume (bind mounts, if used)
+pgdata/
+
+# Logs
+*.log

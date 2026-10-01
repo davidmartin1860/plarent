@@ -1,0 +1,66 @@
+version: "3"
+
+tasks:
+  default:
+    cmds:
+      - task --list
+    silent: true
+
+  env:
+    desc: Create .env from .env.example if it doesn't exist yet
+    status:
+      - test -f .env
+    cmds:
+      - cp .env.example .env
+
+  up:
+    desc: Boot the full local stack (postgres + backend + web)
+    deps: [env]
+    cmds:
+      - docker compose up --build
+
+  up:detached:
+    desc: Boot the full local stack in the background
+    deps: [env]
+    cmds:
+      - docker compose up --build -d
+
+  down:
+    desc: Stop the local stack
+    cmds:
+      - docker compose down
+
+  backend:up:
+    desc: Boot only postgres + backend (for mobile development)
+    deps: [env]
+    cmds:
+      - docker compose up -d postgres backend
+
+  logs:
+    desc: Tail logs for the local stack
+    cmds:
+      - docker compose logs -f
+
+  backend:run:
+    desc: Run the backend locally against the dockerized Postgres
+    dir: backend
+    cmds:
+      - ./gradlew bootRun
+
+  backend:test:
+    desc: Run backend unit + integration tests
+    dir: backend
+    cmds:
+      - ./gradlew test
+
+  web:install:
+    desc: Install web app dependencies
+    dir: web
+    cmds:
+      - npm install
+
+  web:dev:
+    desc: Run the web app locally (expects API at http://localhost:8080/api)
+    dir: web
+    cmds:
+      - npm run dev

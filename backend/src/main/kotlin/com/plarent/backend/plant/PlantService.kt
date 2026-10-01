@@ -23,6 +23,13 @@ class PlantService(
         )
         return plantRepository.save(plant)
     }
+
+    fun deletePlant(id: UUID) {
+        if (!plantRepository.existsById(id)) {
+            throw PlantNotFoundException(id)
+        }
+        plantRepository.deleteById(id)
+    }
 }
 
 class PlantNotFoundException(id: UUID) : RuntimeException("Plant $id not found")

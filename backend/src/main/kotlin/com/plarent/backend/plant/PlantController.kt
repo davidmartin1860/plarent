@@ -2,6 +2,7 @@ package com.plarent.backend.plant
 
 import jakarta.validation.Valid
 import org.springframework.http.HttpStatus
+import org.springframework.web.bind.annotation.DeleteMapping
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PostMapping
@@ -28,4 +29,10 @@ class PlantController(
     @ResponseStatus(HttpStatus.CREATED)
     fun createPlant(@Valid @RequestBody request: CreatePlantRequest): PlantResponse =
         PlantResponse.from(plantService.createPlant(request))
+
+    @DeleteMapping("/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    fun deletePlant(@PathVariable id: UUID) {
+        plantService.deletePlant(id)
+    }
 }

@@ -41,3 +41,10 @@ export async function createPlant(input: CreatePlantInput): Promise<Plant> {
   }
   return res.json();
 }
+
+export async function deletePlant(id: string): Promise<void> {
+  const res = await fetch(`${API_URL}/plants/${id}`, { method: "DELETE" });
+  if (!res.ok) {
+    throw new ApiError(`Failed to delete plant ${id} (${res.status})`, res.status);
+  }
+}

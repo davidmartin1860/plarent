@@ -39,6 +39,7 @@ web/.next/
 web/out/
 web/npm-debug.log*
 web/.env*.local
+web/tsconfig.tsbuildinfo
 
 # Postgres local data volume (bind mounts, if used)
 pgdata/

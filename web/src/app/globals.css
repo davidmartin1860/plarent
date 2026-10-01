@@ -1,10 +1,12 @@
 @import "tailwindcss";
 
+@custom-variant dark (&:where(.dark, .dark *));
+
 :root {
   --color-leaf: #2f6e4f;
   --color-leaf-dark: #1f4d37;
 }
 
 body {
-  @apply bg-stone-50 text-stone-900;
+  @apply bg-stone-50 text-stone-900 dark:bg-stone-950 dark:text-stone-100;
 }

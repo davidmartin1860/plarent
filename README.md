@@ -77,6 +77,14 @@ cp .env.example .env
 docker compose up --build
 ```
 
+Or, with [Task](https://taskfile.dev) installed:
+
+```bash
+task up
+```
+
+Run `task --list` to see all available tasks (backend/web dev, tests, etc.).
+
 - Web: http://localhost:3000
 - API: http://localhost:8080/api/plants
 - Postgres: localhost:5432 (credentials from `.env`)

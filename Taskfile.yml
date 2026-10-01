@@ -64,3 +64,9 @@ tasks:
     dir: web
     cmds:
       - npm run dev
+
+  web:test:
+    desc: Run web unit tests
+    dir: web
+    cmds:
+      - npm test

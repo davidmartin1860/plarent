@@ -49,13 +49,13 @@ describe("AppFooter", () => {
       "/profile",
     ]);
     expect(links.map((link) => link.textContent?.trim())).toEqual([
-      "Meine Pflanzen",
-      "Aufgaben-Kalender",
+      "My Plants",
+      "Task Calendar",
       "",
-      "Plärr-Points",
-      "Mein Profil",
+      "Plärr Points",
+      "My Profile",
     ]);
-    expect(screen.getByRole("link", { name: "Startseite" })).toHaveAttribute("href", "/");
+    expect(screen.getByRole("link", { name: "Home" })).toHaveAttribute("href", "/");
   });
 
   it("marks the current page link as active", () => {
@@ -64,11 +64,11 @@ describe("AppFooter", () => {
 
     const nav = screen.getByRole("navigation", { name: "Main" });
 
-    expect(within(nav).getByRole("link", { name: /Mein Profil/ })).toHaveAttribute(
+    expect(within(nav).getByRole("link", { name: /My Profile/ })).toHaveAttribute(
       "aria-current",
       "page",
     );
-    expect(within(nav).getByRole("link", { name: /Meine Pflanzen/ })).not.toHaveAttribute(
+    expect(within(nav).getByRole("link", { name: /My Plants/ })).not.toHaveAttribute(
       "aria-current",
     );
   });

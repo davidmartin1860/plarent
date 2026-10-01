@@ -4,16 +4,16 @@ common:
   addPlant: Add plant
   backToPlants: Back to plants
   cancel: Cancel
-  home: Startseite
+  home: Home
   theme:
     switchToLight: Switch to light mode
     switchToDark: Switch to dark mode
 
 nav:
-  myPlants: Meine Pflanzen
-  taskCalendar: Aufgaben-Kalender
-  plaerrPoints: Plärr-Points
-  myProfile: Mein Profil
+  myPlants: My Plants
+  taskCalendar: Task Calendar
+  plaerrPoints: Plärr Points
+  myProfile: My Profile
 
 plants:
   list:

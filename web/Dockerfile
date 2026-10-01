@@ -13,6 +13,16 @@ COPY . .
 # so no build-time ARG is required here.
 RUN npm run build
 
+# Hot-reload dev image (used by compose.dev.yaml): `next dev` with Fast Refresh.
+# Source is kept in sync by `docker compose watch`.
+FROM node:22-alpine AS dev
+WORKDIR /app
+COPY --from=deps /app/node_modules ./node_modules
+COPY . .
+EXPOSE 3000
+ENV PORT=3000
+CMD ["npm", "run", "dev", "--", "--hostname", "0.0.0.0"]
+
 FROM node:22-alpine AS runtime
 WORKDIR /app
 ENV NODE_ENV=production

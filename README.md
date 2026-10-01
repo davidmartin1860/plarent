@@ -94,6 +94,25 @@ The web app is a Next.js server that calls the backend over the Docker network
 Server Action for creating a plant — there's no client-side API key or CORS
 configuration to manage for the web app.
 
+### Hot reload
+
+`task up` runs the stack with hot reload. It layers `compose.dev.yaml` on top
+of `compose.yaml` and runs it with
+[Compose Watch](https://docs.docker.com/compose/how-tos/file-watch/)
+(`docker compose up --watch`, requires Docker Compose v2.27+):
+
+- **Backend**: changes under `backend/src` are synced into the container, a
+  continuous Gradle build recompiles them, and Spring Boot DevTools restarts
+  the app (a few seconds).
+- **Web**: changes under `web/` are synced into the container, where `next dev`
+  applies them via Fast Refresh.
+- Changing `build.gradle.kts`, `settings.gradle.kts`, `gradle.properties`,
+  `package.json` or `package-lock.json` rebuilds the affected image.
+
+Plain `docker compose up --build` (and `task up:detached` / `task backend:up`)
+still runs the production images (fat jar / Next.js standalone) without hot
+reload.
+
 ### Backend only (for mobile development against a local API)
 
 ```bash

@@ -41,6 +41,9 @@ web/npm-debug.log*
 web/.env*.local
 web/tsconfig.tsbuildinfo
 
+# Generated from web/src/lib/i18n/locales/*.yaml by scripts/generate-i18n.mjs
+web/src/lib/i18n/locales/*.generated.ts
+
 # Postgres local data volume (bind mounts, if used)
 pgdata/
 

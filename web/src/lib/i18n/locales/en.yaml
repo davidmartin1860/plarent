@@ -1,0 +1,37 @@
+common:
+  appName: Plarent
+  appTagline: Manage and care for your houseplants
+  addPlant: Add plant
+  backToPlants: Back to plants
+  cancel: Cancel
+
+plants:
+  list:
+    empty: No plants yet.
+    addFirst: Add your first plant
+    location: "📍 {{location}}"
+  detail:
+    location: Location
+    acquired: Acquired
+    notes: Notes
+    notFound: We couldn't find that plant.
+  new:
+    title: Add a plant
+    nameLabel: Name
+    speciesLabel: Species
+    speciesPlaceholder: Monstera deliciosa
+    locationLabel: Location
+    locationPlaceholder: Living room window
+    acquiredDateLabel: Acquired date
+    notesLabel: Notes
+    save: Save plant
+  delete:
+    button: Delete plant
+    title: Delete plant
+    confirmMessage: "Are you sure you want to delete {{name}}? This cannot be undone."
+    confirm: Delete
+    confirming: Deleting…
+
+error:
+  title: Something went wrong
+  retry: Try again

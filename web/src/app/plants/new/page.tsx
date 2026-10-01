@@ -1,18 +1,27 @@
+import { t } from "@/lib/i18n";
 import { createPlantAction } from "./actions";
 
 export default function NewPlantPage() {
   return (
     <div className="rounded-lg border border-stone-200 bg-white p-6 shadow-sm">
-      <h1 className="text-2xl font-semibold text-stone-900">Add a plant</h1>
+      <h1 className="text-2xl font-semibold text-stone-900">{t("plants.new.title")}</h1>
 
       <form action={createPlantAction} className="mt-6 space-y-4">
-        <Field label="Name" name="name" required />
-        <Field label="Species" name="species" placeholder="Monstera deliciosa" />
-        <Field label="Location" name="location" placeholder="Living room window" />
-        <Field label="Acquired date" name="acquiredDate" type="date" />
+        <Field label={t("plants.new.nameLabel")} name="name" required />
+        <Field
+          label={t("plants.new.speciesLabel")}
+          name="species"
+          placeholder={t("plants.new.speciesPlaceholder")}
+        />
+        <Field
+          label={t("plants.new.locationLabel")}
+          name="location"
+          placeholder={t("plants.new.locationPlaceholder")}
+        />
+        <Field label={t("plants.new.acquiredDateLabel")} name="acquiredDate" type="date" />
         <div>
           <label htmlFor="notes" className="block text-sm font-medium text-stone-700">
-            Notes
+            {t("plants.new.notesLabel")}
           </label>
           <textarea
             id="notes"
@@ -26,7 +35,7 @@ export default function NewPlantPage() {
           type="submit"
           className="rounded-md bg-emerald-700 px-4 py-2 font-medium text-white hover:bg-emerald-800"
         >
-          Save plant
+          {t("plants.new.save")}
         </button>
       </form>
     </div>

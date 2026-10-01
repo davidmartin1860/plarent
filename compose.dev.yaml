@@ -1,0 +1,42 @@
+# Hot-reload override for local development. Layer on top of compose.yaml:
+#   docker compose -f compose.yaml -f compose.dev.yaml up --build --watch
+# (or `task dev`). Source changes are synced into the containers; dependency
+# file changes trigger an image rebuild.
+
+services:
+  backend:
+    build:
+      target: dev
+    volumes:
+      # Keep the Gradle cache across container restarts/rebuilds.
+      - backend-gradle-cache:/root/.gradle
+    develop:
+      watch:
+        - action: sync
+          path: ./backend/src
+          target: /app/src
+        - action: rebuild
+          path: ./backend/build.gradle.kts
+        - action: rebuild
+          path: ./backend/settings.gradle.kts
+        - action: rebuild
+          path: ./backend/gradle.properties
+
+  web:
+    build:
+      target: dev
+    develop:
+      watch:
+        - action: sync
+          path: ./web
+          target: /app
+          ignore:
+            - node_modules/
+            - .next/
+        - action: rebuild
+          path: ./web/package.json
+        - action: rebuild
+          path: ./web/package-lock.json
+
+volumes:
+  backend-gradle-cache:

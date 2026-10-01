@@ -25,6 +25,18 @@ tasks:
     cmds:
       - docker compose up --build -d
 
+  dev:
+    desc: Boot the full local stack with hot reload (backend + web)
+    deps: [env]
+    cmds:
+      - docker compose -f compose.yaml -f compose.dev.yaml up --build --watch
+
+  backend:dev:
+    desc: Boot only postgres + backend with hot reload (for mobile development)
+    deps: [env]
+    cmds:
+      - docker compose -f compose.yaml -f compose.dev.yaml up --build --watch postgres backend
+
   down:
     desc: Stop the local stack
     cmds:

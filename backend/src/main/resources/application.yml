@@ -1,0 +1,23 @@
+spring:
+  application:
+    name: plarent-backend
+  datasource:
+    url: jdbc:postgresql://localhost:5432/plarent
+    username: plarent
+    password: changeme
+  jpa:
+    open-in-view: false
+    hibernate:
+      ddl-auto: validate
+    properties:
+      hibernate:
+        format_sql: true
+  flyway:
+    enabled: true
+
+server:
+  port: 8080
+
+logging:
+  level:
+    com.plarent.backend: INFO

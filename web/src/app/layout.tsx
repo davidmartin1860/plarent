@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { AppFooter } from "@/components/app-footer";
 import { t } from "@/lib/i18n";
 import { ThemeToggle } from "@/components/theme-toggle";
 import "./globals.css";
@@ -30,7 +31,7 @@ export default function RootLayout({
         <script dangerouslySetInnerHTML={{ __html: themeInitScript }} />
       </head>
       <body>
-        <div className="min-h-screen">
+        <div className="min-h-screen pb-24">
           <header className="border-b border-stone-200 bg-white dark:border-stone-800 dark:bg-stone-900">
             <div className="mx-auto flex max-w-3xl items-center justify-between px-4 py-4">
               <Link href="/" className="text-lg font-semibold text-emerald-800 dark:text-emerald-400">
@@ -48,6 +49,7 @@ export default function RootLayout({
             </div>
           </header>
           <main className="mx-auto max-w-3xl px-4 py-8">{children}</main>
+          <AppFooter />
         </div>
       </body>
     </html>

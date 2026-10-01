@@ -44,9 +44,7 @@ struct PlantDetailView: View {
             Form {
                 Section("Details") {
                     LabeledContent("Name", value: plant.name)
-                    if let species = plant.species, !species.isEmpty {
-                        LabeledContent("Species", value: species)
-                    }
+                    LabeledContent("Species", value: plant.species)
                     if let location = plant.location, !location.isEmpty {
                         LabeledContent("Location", value: location)
                     }

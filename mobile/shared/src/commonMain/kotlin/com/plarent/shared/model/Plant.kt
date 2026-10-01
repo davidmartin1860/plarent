@@ -11,7 +11,7 @@ import kotlinx.serialization.Serializable
 data class Plant(
     val id: String,
     val name: String,
-    val species: String?,
+    val species: String,
     val location: String?,
     val acquiredDate: String?,
     val notes: String?,
@@ -22,7 +22,7 @@ data class Plant(
 @Serializable
 data class CreatePlantRequest(
     val name: String,
-    val species: String? = null,
+    val species: String,
     val location: String? = null,
     val acquiredDate: String? = null,
     val notes: String? = null,

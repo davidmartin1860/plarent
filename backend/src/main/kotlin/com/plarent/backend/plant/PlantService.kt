@@ -16,7 +16,7 @@ class PlantService(
     fun createPlant(request: CreatePlantRequest): Plant {
         val plant = Plant(
             name = request.name.trim(),
-            species = request.species?.trim()?.ifBlank { null },
+            species = request.species.trim(),
             location = request.location?.trim()?.ifBlank { null },
             acquiredDate = request.acquiredDate,
             notes = request.notes?.trim()?.ifBlank { null },

@@ -31,7 +31,7 @@ class PlantControllerTest {
 
     @Test
     fun `lists plants`() {
-        val plant = Plant(name = "Monstera")
+        val plant = Plant(name = "Monstera", species = "Monstera deliciosa")
         whenever(plantService.listPlants()).thenReturn(listOf(plant))
 
         mockMvc.perform(get("/api/plants"))
@@ -85,7 +85,19 @@ class PlantControllerTest {
 
     @Test
     fun `rejects blank name`() {
-        val request = CreatePlantRequest(name = "")
+        val request = CreatePlantRequest(name = "", species = "Monstera deliciosa")
+
+        mockMvc.perform(
+            post("/api/plants")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(request)),
+        )
+            .andExpect(status().isBadRequest)
+    }
+
+    @Test
+    fun `rejects blank species`() {
+        val request = CreatePlantRequest(name = "Monstera", species = " ")
 
         mockMvc.perform(
             post("/api/plants")

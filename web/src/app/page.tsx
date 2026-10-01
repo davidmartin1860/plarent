@@ -28,9 +28,7 @@ export default async function PlantsPage() {
             className="block rounded-lg border border-stone-200 bg-white p-4 shadow-sm transition hover:border-emerald-300 hover:shadow"
           >
             <p className="font-medium text-stone-900">{plant.name}</p>
-            {plant.species && (
-              <p className="text-sm italic text-stone-500">{plant.species}</p>
-            )}
+            <p className="text-sm italic text-stone-500">{plant.species}</p>
             {plant.location && (
               <p className="mt-1 text-sm text-stone-600">
                 {t("plants.list.location", { location: plant.location })}

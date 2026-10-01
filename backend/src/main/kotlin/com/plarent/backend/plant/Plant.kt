@@ -17,8 +17,8 @@ class Plant(
     @Column(nullable = false, length = 100)
     var name: String,
 
-    @Column(length = 150)
-    var species: String? = null,
+    @Column(nullable = false, length = 150)
+    var species: String,
 
     @Column(length = 150)
     var location: String? = null,

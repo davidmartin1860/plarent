@@ -25,7 +25,7 @@ export default async function PlantDetailPage({
         <DeletePlantButton plantId={plant.id} plantName={plant.name} />
       </div>
       <h1 className="mt-3 text-2xl font-semibold text-stone-900">{plant.name}</h1>
-      {plant.species && <p className="italic text-stone-500">{plant.species}</p>}
+      <p className="italic text-stone-500">{plant.species}</p>
 
       <dl className="mt-6 grid grid-cols-1 gap-4 sm:grid-cols-2">
         <div>

@@ -9,6 +9,11 @@ export async function createPlantAction(formData: FormData): Promise<void> {
     throw new Error("Name is required");
   }
 
+  const species = String(formData.get("species") ?? "").trim();
+  if (!species) {
+    throw new Error("Species is required");
+  }
+
   const optional = (field: string): string | undefined => {
     const value = String(formData.get(field) ?? "").trim();
     return value.length > 0 ? value : undefined;
@@ -16,7 +21,7 @@ export async function createPlantAction(formData: FormData): Promise<void> {
 
   const plant = await createPlant({
     name,
-    species: optional("species"),
+    species,
     location: optional("location"),
     acquiredDate: optional("acquiredDate"),
     notes: optional("notes"),

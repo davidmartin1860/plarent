@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { getPlants } from "@/lib/api";
+import { t } from "@/lib/i18n";
 
 export default async function PlantsPage() {
   const plants = await getPlants();
@@ -7,12 +8,12 @@ export default async function PlantsPage() {
   if (plants.length === 0) {
     return (
       <div className="rounded-lg border border-dashed border-stone-300 p-8 text-center">
-        <p className="text-stone-600">No plants yet.</p>
+        <p className="text-stone-600">{t("plants.list.empty")}</p>
         <Link
           href="/plants/new"
           className="mt-3 inline-block text-emerald-700 underline underline-offset-2"
         >
-          Add your first plant
+          {t("plants.list.addFirst")}
         </Link>
       </div>
     );
@@ -31,7 +32,9 @@ export default async function PlantsPage() {
               <p className="text-sm italic text-stone-500">{plant.species}</p>
             )}
             {plant.location && (
-              <p className="mt-1 text-sm text-stone-600">📍 {plant.location}</p>
+              <p className="mt-1 text-sm text-stone-600">
+                {t("plants.list.location", { location: plant.location })}
+              </p>
             )}
           </Link>
         </li>

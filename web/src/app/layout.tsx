@@ -1,10 +1,11 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { t } from "@/lib/i18n";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "Plarent",
-  description: "Manage and care for your houseplants",
+  title: t("common.appName"),
+  description: t("common.appTagline"),
 };
 
 export default function RootLayout({
@@ -19,13 +20,13 @@ export default function RootLayout({
           <header className="border-b border-stone-200 bg-white">
             <div className="mx-auto flex max-w-3xl items-center justify-between px-4 py-4">
               <Link href="/" className="text-lg font-semibold text-emerald-800">
-                🌱 Plarent
+                🌱 {t("common.appName")}
               </Link>
               <Link
                 href="/plants/new"
                 className="rounded-md bg-emerald-700 px-3 py-1.5 text-sm font-medium text-white hover:bg-emerald-800"
               >
-                Add plant
+                {t("common.addPlant")}
               </Link>
             </div>
           </header>

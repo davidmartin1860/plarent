@@ -7,11 +7,13 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest
 import org.springframework.boot.test.mock.mockito.MockBean
 import org.springframework.http.MediaType
 import org.springframework.test.web.servlet.MockMvc
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
 import org.mockito.kotlin.any
+import org.mockito.kotlin.verify
 import org.mockito.kotlin.whenever
 import java.util.UUID
 
@@ -60,6 +62,25 @@ class PlantControllerTest {
         )
             .andExpect(status().isCreated)
             .andExpect(jsonPath("$.name").value("Monstera"))
+    }
+
+    @Test
+    fun `deletes a plant`() {
+        val id = UUID.randomUUID()
+
+        mockMvc.perform(delete("/api/plants/$id"))
+            .andExpect(status().isNoContent)
+
+        verify(plantService).deletePlant(id)
+    }
+
+    @Test
+    fun `returns 404 when deleting unknown plant`() {
+        val id = UUID.randomUUID()
+        whenever(plantService.deletePlant(id)).thenThrow(PlantNotFoundException(id))
+
+        mockMvc.perform(delete("/api/plants/$id"))
+            .andExpect(status().isNotFound)
     }
 
     @Test

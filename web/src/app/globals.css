@@ -104,6 +104,13 @@
   line-height: normal;
 }
 
+@utility type-tab-bar {
+  font-family: var(--font-serif);
+  font-size: 0.8125rem;
+  font-weight: 700;
+  line-height: 1;
+}
+
 body {
   /* Body Text: Playfair Display. Headline, title, and small text opt into their own utilities. */
   @apply bg-background font-serif text-base font-normal leading-normal text-primary;

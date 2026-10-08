@@ -1,42 +1,27 @@
-import Link from "next/link";
-import { getPlants } from "@/lib/api";
 import { t } from "@/lib/i18n";
 
-export default async function PlantsPage() {
-  const plants = await getPlants();
+// Placeholder until the signed-in user's name is available.
+const USER_NAME = "Plarent-Nutzer";
 
-  if (plants.length === 0) {
-    return (
-      <div className="rounded-[14px] border border-dashed border-secondary/40 p-8 text-center">
-        <p className="text-secondary">{t("plants.list.empty")}</p>
-        <Link
-          href="/plants/new"
-          className="mt-3 inline-block text-secondary-title underline underline-offset-2"
-        >
-          {t("plants.list.addFirst")}
-        </Link>
-      </div>
-    );
-  }
+export default function HomePage() {
+  const weekday = new Intl.DateTimeFormat("de-DE", { weekday: "long" }).format(new Date());
 
   return (
-    <ul className="grid gap-3 sm:grid-cols-2">
-      {plants.map((plant) => (
-        <li key={plant.id}>
-          <Link
-            href={`/plants/${plant.id}`}
-            className="block rounded-[14px] border border-secondary/30 bg-boxes-secondary p-4 shadow-[0_5px_16px_rgba(53,66,56,0.07)] transition hover:border-secondary-title"
-          >
-            <p className="font-sans text-sm font-semibold text-primary">{plant.name}</p>
-            <p className="text-sm italic text-secondary">{plant.species}</p>
-            {plant.location && (
-              <p className="mt-1 text-sm text-secondary">
-                {t("plants.list.location", { location: plant.location })}
-              </p>
-            )}
-          </Link>
-        </li>
-      ))}
-    </ul>
+    <div className="flex w-full flex-col gap-content">
+      <h1 className="type-headline text-accent">{t("home.greeting", { name: USER_NAME })}</h1>
+      <section className="mx-auto flex w-full max-w-[370px] items-center justify-between rounded-[20px] bg-boxes-primary px-4 py-[14px] shadow-[0_5px_16px_rgba(53,66,56,0.07)]">
+        <div className="flex items-center gap-[10px]">
+          <div className="flex size-[34px] shrink-0 items-center justify-center rounded-full bg-beige">
+            <img src="/home/day-plant.svg" alt="" width={18} height={26} />
+          </div>
+          <div className="flex flex-col gap-[2px] text-secondary">
+            <p className="type-body">{t("home.dayTitle", { weekday })}</p>
+            {/* The completed and total task counts should be shown here once tasks exist. */}
+            <p className="type-small">{t("home.allDone")}</p>
+          </div>
+        </div>
+        <img src="/home/all-done.svg" alt="" width={28.9453} height={28.9453} className="shrink-0" />
+      </section>
+    </div>
   );
 }

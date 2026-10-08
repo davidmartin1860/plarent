@@ -9,6 +9,11 @@ common:
     switchToLight: Switch to light mode
     switchToDark: Switch to dark mode
 
+home:
+  greeting: "Guten Morgen {{name}}!"
+  dayTitle: "Dein {{weekday}}"
+  allDone: alle Aufgaben erledigt
+
 nav:
   myPlants: My Plants
   taskCalendar: Task Calendar

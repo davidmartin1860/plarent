@@ -19,7 +19,7 @@ export default async function PlantDetailPage({
   return (
     <div className="rounded-[14px] border border-secondary/30 bg-boxes-secondary p-6 shadow-[0_5px_16px_rgba(53,66,56,0.07)]">
       <div className="flex items-center justify-between">
-        <Link href="/" className="text-sm text-secondary-title underline underline-offset-2">
+        <Link href="/plants" className="text-sm text-secondary-title underline underline-offset-2">
           ← {t("common.backToPlants")}
         </Link>
         <DeletePlantButton plantId={plant.id} plantName={plant.name} />

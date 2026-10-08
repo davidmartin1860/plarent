@@ -1,9 +1,8 @@
 import type { Metadata } from "next";
 import { Inter, Playfair_Display, Quicksand } from "next/font/google";
-import Link from "next/link";
 import { AppFooter } from "@/components/app-footer";
+import { AppHeader } from "@/components/app-header";
 import { t } from "@/lib/i18n";
-import { ThemeToggle } from "@/components/theme-toggle";
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -53,22 +52,7 @@ export default function RootLayout({
       </head>
       <body>
         <div className="min-h-screen pb-24">
-          <header className="border-b border-secondary/30 bg-boxes-secondary">
-            <div className="mx-auto flex max-w-3xl items-center justify-between px-page-x py-4">
-              <Link href="/" className="font-display text-lg font-semibold text-primary">
-                🌱 {t("common.appName")}
-              </Link>
-              <div className="flex items-center gap-2">
-                <Link
-                  href="/plants/new"
-                  className="rounded-full bg-secondary-title px-3 py-1.5 font-sans text-sm font-semibold text-background hover:opacity-90"
-                >
-                  {t("common.addPlant")}
-                </Link>
-                <ThemeToggle />
-              </div>
-            </div>
-          </header>
+          <AppHeader />
           <main className="mx-auto max-w-3xl px-page-x py-8">{children}</main>
           <AppFooter />
         </div>

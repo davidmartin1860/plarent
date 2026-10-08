@@ -2,12 +2,109 @@
 
 @custom-variant dark (&:where(.dark, .dark *));
 
-:root {
-  --color-leaf: #2f6e4f;
-  --color-leaf-dark: #1f4d37;
+/* Figma collection "Base Colors" */
+@theme {
+  --color-beige: #f9f1e9;
+  --color-darker-beige: #e8ceb5;
+  --color-dark-brown: #150c02;
+  --color-not-so-dark-brown: #322f2c;
+  --color-dark-green: #054835;
+  --color-light-green: #648464;
   --color-lighter-green: #bdd1bd;
+  --color-golden: #e4bc8d;
+  --color-redish: #c36662;
+  --color-light-brown: #76634d;
+  --color-almost-white: #fffefb;
+
+  --spacing-content: 1rem;
+  --spacing-page-x: 1rem;
+}
+
+/* Figma collection "Color Scheme" (Light / Dark modes) */
+:root {
+  --background: var(--color-beige);
+  --primary: var(--color-dark-brown);
+  --secondary: var(--color-light-brown);
+  --accent: var(--color-redish);
+  --highlight: var(--color-redish);
+  --boxes-primary: var(--color-lighter-green);
+  --boxes-secondary: var(--color-almost-white);
+  --secondary-title: var(--color-dark-green);
+  --task-overdue: var(--color-redish);
+  --task-new: var(--color-light-green);
+  --tab-bar: var(--color-lighter-green);
+}
+
+.dark {
+  --background: var(--color-dark-brown);
+  --primary: var(--color-beige);
+  --secondary: var(--color-darker-beige);
+  --accent: var(--color-redish);
+  --highlight: var(--color-golden);
+  --boxes-primary: var(--color-dark-green);
+  --boxes-secondary: var(--color-not-so-dark-brown);
+  --secondary-title: var(--color-lighter-green);
+  --task-overdue: var(--color-redish);
+  --task-new: var(--color-light-green);
+  --tab-bar: var(--color-not-so-dark-brown);
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-primary: var(--primary);
+  --color-secondary: var(--secondary);
+  --color-accent: var(--accent);
+  --color-highlight: var(--highlight);
+  --color-boxes-primary: var(--boxes-primary);
+  --color-boxes-secondary: var(--boxes-secondary);
+  --color-secondary-title: var(--secondary-title);
+  --color-task-overdue: var(--task-overdue);
+  --color-task-new: var(--task-new);
+  --color-tab-bar: var(--tab-bar);
+
+  /* Figma families, then a metric-similar face that ships with the browser. */
+  --font-sans: var(--font-inter), ui-sans-serif, system-ui, "Segoe UI", sans-serif;
+  --font-display: var(--font-quicksand), "Trebuchet MS", ui-sans-serif, system-ui, sans-serif;
+  --font-serif: var(--font-playfair-display), Georgia, "Times New Roman", serif;
+}
+
+/* Figma text styles */
+@utility type-headline {
+  font-family: var(--font-display);
+  font-size: 2.5rem;
+  font-weight: 600;
+  line-height: normal;
+}
+
+@utility type-title {
+  font-family: var(--font-display);
+  font-size: 1.5rem;
+  font-weight: 700;
+  line-height: normal;
+}
+
+@utility type-secondary-title {
+  font-family: var(--font-display);
+  font-size: 1.25rem;
+  font-weight: 300;
+  line-height: normal;
+}
+
+@utility type-body {
+  font-family: var(--font-serif);
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: normal;
+}
+
+@utility type-small {
+  font-family: var(--font-serif);
+  font-size: 0.625rem;
+  font-weight: 700;
+  line-height: normal;
 }
 
 body {
-  @apply bg-stone-50 text-stone-900 dark:bg-stone-950 dark:text-stone-100;
+  /* Body Text: Playfair Display. Headline, title, and small text opt into their own utilities. */
+  @apply bg-background font-serif text-base font-normal leading-normal text-primary;
 }

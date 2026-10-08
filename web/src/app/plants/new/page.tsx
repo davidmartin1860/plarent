@@ -3,8 +3,8 @@ import { createPlantAction } from "./actions";
 
 export default function NewPlantPage() {
   return (
-    <div className="rounded-lg border border-stone-200 bg-white p-6 shadow-sm dark:border-stone-800 dark:bg-stone-900">
-      <h1 className="text-2xl font-semibold text-stone-900 dark:text-stone-100">{t("plants.new.title")}</h1>
+    <div className="rounded-[14px] border border-secondary/30 bg-boxes-secondary p-6 shadow-[0_5px_16px_rgba(53,66,56,0.07)]">
+      <h1 className="type-title text-primary">{t("plants.new.title")}</h1>
 
       <form action={createPlantAction} className="mt-6 space-y-4">
         <Field label={t("plants.new.nameLabel")} name="name" required />
@@ -21,20 +21,20 @@ export default function NewPlantPage() {
         />
         <Field label={t("plants.new.acquiredDateLabel")} name="acquiredDate" type="date" />
         <div>
-          <label htmlFor="notes" className="block text-sm font-medium text-stone-700 dark:text-stone-300">
+          <label htmlFor="notes" className="block font-sans text-sm font-medium text-secondary">
             {t("plants.new.notesLabel")}
           </label>
           <textarea
             id="notes"
             name="notes"
             rows={3}
-            className="mt-1 block w-full rounded-md border border-stone-300 px-3 py-2 shadow-sm focus:border-emerald-500 focus:outline-none focus:ring-1 focus:ring-emerald-500 dark:border-stone-700 dark:bg-stone-800 dark:text-stone-100"
+            className="mt-1 block w-full rounded-[14px] border border-secondary/40 bg-background px-3 py-2 font-sans text-primary shadow-sm outline-none focus:border-secondary-title focus:ring-1 focus:ring-secondary-title"
           />
         </div>
 
         <button
           type="submit"
-          className="rounded-md bg-emerald-700 px-4 py-2 font-medium text-white hover:bg-emerald-800 dark:bg-emerald-600 dark:hover:bg-emerald-700"
+          className="rounded-full bg-secondary-title px-4 py-2 font-sans font-semibold text-background hover:opacity-90"
         >
           {t("plants.new.save")}
         </button>
@@ -58,9 +58,9 @@ function Field({
 }) {
   return (
     <div>
-      <label htmlFor={name} className="block text-sm font-medium text-stone-700 dark:text-stone-300">
+      <label htmlFor={name} className="block font-sans text-sm font-medium text-secondary">
         {label}
-        {required && <span className="text-emerald-700 dark:text-emerald-400"> *</span>}
+        {required && <span className="text-accent"> *</span>}
       </label>
       <input
         id={name}
@@ -68,7 +68,7 @@ function Field({
         type={type}
         required={required}
         placeholder={placeholder}
-        className="mt-1 block w-full rounded-md border border-stone-300 px-3 py-2 shadow-sm focus:border-emerald-500 focus:outline-none focus:ring-1 focus:ring-emerald-500 dark:border-stone-700 dark:bg-stone-800 dark:text-stone-100"
+        className="mt-1 block w-full rounded-[14px] border border-secondary/40 bg-background px-3 py-2 font-sans text-primary shadow-sm outline-none focus:border-secondary-title focus:ring-1 focus:ring-secondary-title"
       />
     </div>
   );

@@ -62,7 +62,7 @@ export function AppFooter() {
   const pathname = usePathname();
 
   return (
-    <footer className="fixed inset-x-0 bottom-0 z-40 border-t border-stone-200 bg-[var(--color-lighter-green)] pb-[env(safe-area-inset-bottom)] dark:border-stone-800 dark:bg-stone-900">
+    <footer className="fixed inset-x-0 bottom-0 z-40 border-t border-secondary/30 bg-tab-bar pb-[env(safe-area-inset-bottom)] text-primary">
       <nav
         aria-label="Main"
         className="mx-auto flex max-w-3xl items-end justify-between gap-1 px-2 pt-2 pb-2"
@@ -75,7 +75,7 @@ export function AppFooter() {
                   key="logo"
                   href={item.href}
                   aria-label={t("common.home")}
-                  className="-mt-5 flex size-14 shrink-0 items-center justify-center rounded-full bg-[var(--color-lighter-green)] shadow-md ring-2 ring-emerald-700/20 transition hover:ring-emerald-700/40 dark:bg-stone-900 dark:ring-emerald-400/30 dark:hover:ring-emerald-400/60"
+                  className="-mt-5 flex size-14 shrink-0 items-center justify-center rounded-full bg-tab-bar shadow-md ring-2 ring-secondary-title/30 transition hover:ring-secondary-title/60"
                 >
                   <Logo className="size-10" />
                 </Link>
@@ -93,14 +93,14 @@ export function AppFooter() {
                   className={[
                     "flex min-w-0 flex-1 flex-col items-center gap-1 rounded-md px-1 py-1 text-center transition",
                     active
-                      ? "text-emerald-900 dark:text-emerald-400"
-                      : "text-emerald-900/70 hover:text-emerald-900 dark:text-stone-400 dark:hover:text-emerald-400",
+                      ? "text-primary"
+                      : "text-primary/70 hover:text-primary",
                   ].join(" ")}
                 >
                   <span className="[&>svg]:size-5">
                     <Icon />
                   </span>
-                  <span className="max-w-full truncate text-[0.65rem] leading-tight font-medium">
+                  <span className="max-w-full truncate font-serif text-[0.8125rem] leading-none font-bold">
                     {label}
                   </span>
                 </Link>

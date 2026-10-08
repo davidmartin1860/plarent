@@ -73,12 +73,11 @@ describe("AppFooter", () => {
     );
   });
 
-  it("uses the lighter-green surface token with a dark-mode fallback", () => {
+  it("uses the tab bar color token", () => {
     const { container } = render(<AppFooter />);
     const footer = container.querySelector("footer");
 
-    expect(footer).toHaveClass("bg-[var(--color-lighter-green)]");
-    expect(footer).toHaveClass("dark:bg-stone-900");
-    expect(footer).toHaveClass("dark:border-stone-800");
+    expect(footer).toHaveClass("bg-tab-bar");
+    expect(footer).toHaveClass("text-primary");
   });
 });

@@ -1,10 +1,10 @@
 import { t } from "@/lib/i18n";
 
 // Placeholder until the signed-in user's name is available.
-const USER_NAME = "Plarent-Nutzer";
+const USER_NAME = "Plarent user";
 
 export default function HomePage() {
-  const weekday = new Intl.DateTimeFormat("de-DE", { weekday: "long" }).format(new Date());
+  const weekday = new Intl.DateTimeFormat("en-US", { weekday: "long" }).format(new Date());
 
   return (
     <div className="flex w-full flex-col gap-content">

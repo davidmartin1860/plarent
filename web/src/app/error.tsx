@@ -10,12 +10,12 @@ export default function Error({
   reset: () => void;
 }) {
   return (
-    <div className="rounded-lg border border-red-200 bg-red-50 p-6 text-center dark:border-red-900 dark:bg-red-950">
-      <p className="font-medium text-red-800 dark:text-red-300">{t("error.title")}</p>
-      <p className="mt-1 text-sm text-red-700 dark:text-red-400">{error.message}</p>
+    <div className="rounded-[14px] border border-accent/40 bg-boxes-secondary p-6 text-center">
+      <p className="font-sans font-semibold text-accent">{t("error.title")}</p>
+      <p className="mt-1 text-sm text-secondary">{error.message}</p>
       <button
         onClick={reset}
-        className="mt-4 rounded-md bg-red-700 px-3 py-1.5 text-sm font-medium text-white hover:bg-red-800 dark:bg-red-700 dark:hover:bg-red-600"
+        className="mt-4 rounded-full bg-accent px-3 py-1.5 font-sans text-sm font-semibold text-almost-white hover:opacity-90"
       >
         {t("error.retry")}
       </button>

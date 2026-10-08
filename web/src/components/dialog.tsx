@@ -27,10 +27,10 @@ export function Dialog({
         role="dialog"
         aria-modal="true"
         aria-labelledby="dialog-title"
-        className="w-full max-w-sm rounded-lg bg-white p-6 shadow-lg dark:bg-stone-900"
+        className="w-full max-w-sm rounded-[14px] bg-boxes-secondary p-6 text-primary shadow-[0_5px_16px_rgba(53,66,56,0.07)]"
         onClick={(event) => event.stopPropagation()}
       >
-        <h2 id="dialog-title" className="text-lg font-semibold text-stone-900 dark:text-stone-100">
+        <h2 id="dialog-title" className="font-display text-lg font-semibold text-primary">
           {title}
         </h2>
         {children}

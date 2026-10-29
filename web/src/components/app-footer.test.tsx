@@ -114,4 +114,12 @@ describe("AppFooter", () => {
     expect(footer).toHaveClass("bg-tab-bar");
     expect(footer).toHaveClass("text-primary");
   });
+
+  it.each(["/login", "/register"])("is hidden on %s", (pathname) => {
+    usePathname.mockReturnValue(pathname);
+
+    render(<AppFooter />);
+
+    expect(screen.queryByRole("navigation")).toBeNull();
+  });
 });

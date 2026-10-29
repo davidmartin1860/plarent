@@ -78,3 +78,28 @@ profile:
     label: Appearance
     light: Light
     dark: Dark
+
+auth:
+  username: Username
+  password: Password
+  usernameHint: "3–32 characters: letters, digits, '_', '.' or '-'"
+  passwordHint: At least 8 characters.
+  logout: Log out
+  login:
+    title: Welcome back
+    intro: Log in to see your plants. 🌿
+    submit: Log in
+    noAccount: "New here?"
+    toRegister: Create an account
+  register:
+    title: Create your account
+    intro: Pick a username and password to start your green adventure. 🌱
+    submit: Create account
+    haveAccount: Already have an account?
+    toLogin: Log in
+  errors:
+    invalidCredentials: Wrong username or password.
+    tooManyAttempts: Too many failed attempts. Please try again in a few minutes.
+    usernameTaken: That username is already taken.
+    invalidInput: "Please check your input: usernames are 3–32 characters, passwords at least 8."
+    unexpected: Something went wrong. Please try again.

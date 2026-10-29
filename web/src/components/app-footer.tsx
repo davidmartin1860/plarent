@@ -16,6 +16,9 @@ const LEFT_LINKS: FooterLink[] = [
   { href: "/calendar", labelKey: "nav.taskCalendar", column: "col-start-2" },
 ];
 
+// Signed-out pages have nowhere to navigate to.
+const HIDDEN_ON = ["/login", "/register"];
+
 const RIGHT_LINKS: FooterLink[] = [
   { href: "/points", labelKey: "nav.plaerrPoints", column: "col-start-4" },
   { href: "/profile", labelKey: "nav.myProfile", column: "col-start-5" },
@@ -49,6 +52,10 @@ export function AppFooter() {
   const pathname = usePathname();
   const t = useTranslations();
   const isHome = pathname === "/";
+
+  if (HIDDEN_ON.includes(pathname)) {
+    return null;
+  }
 
   return (
     <footer className="fixed inset-x-0 bottom-0 z-40 border-t-[20px] border-background bg-tab-bar pb-[env(safe-area-inset-bottom)] text-primary">

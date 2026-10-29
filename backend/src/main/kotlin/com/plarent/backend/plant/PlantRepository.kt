@@ -5,4 +5,8 @@ import org.springframework.stereotype.Repository
 import java.util.UUID
 
 @Repository
-interface PlantRepository : JpaRepository<Plant, UUID>
+interface PlantRepository : JpaRepository<Plant, UUID> {
+    fun findAllByOwnerIdOrderByCreatedAtDesc(ownerId: UUID): List<Plant>
+
+    fun findByIdAndOwnerId(id: UUID, ownerId: UUID): Plant?
+}

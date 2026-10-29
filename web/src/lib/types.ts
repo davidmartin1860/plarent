@@ -16,3 +16,14 @@ export interface PlantInput {
   acquiredDate?: string;
   notes?: string;
 }
+
+export interface User {
+  id: string;
+  username: string;
+  createdAt: string;
+}
+
+export interface AuthCredentials {
+  username: string;
+  password: string;
+}

@@ -1,10 +1,14 @@
 import Link from "next/link";
+import { getMe } from "@/lib/api";
 import { getTranslations } from "@/lib/i18n/server";
 import { MOCK_PROFILE } from "@/lib/mock-profile";
+import { logoutAction } from "./actions";
 
 export default async function ProfilePage() {
   const t = await getTranslations();
-  const profile = MOCK_PROFILE;
+  const user = await getMe();
+  // Only the name comes from the account so far; the stats are still placeholders.
+  const profile = { ...MOCK_PROFILE, name: user.username };
 
   const stats = [
     { value: profile.plantCount, label: t("profile.stats.plants") },
@@ -46,6 +50,12 @@ export default async function ProfilePage() {
         <SettingsRow href="/profile/language" label={t("profile.language.label")} />
         <SettingsRow href="/profile/appearance" label={t("profile.appearance.label")} />
       </nav>
+
+      <form action={logoutAction} className="flex justify-center">
+        <button type="submit" className="type-body text-accent underline underline-offset-2 hover:opacity-80">
+          {t("auth.logout")}
+        </button>
+      </form>
     </div>
   );
 }

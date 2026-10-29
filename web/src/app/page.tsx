@@ -1,16 +1,15 @@
+import { getMe } from "@/lib/api";
 import { getLocale, getTranslations } from "@/lib/i18n/server";
-
-// Placeholder until the signed-in user's name is available.
-const USER_NAME = "Plarent user";
 
 export default async function HomePage() {
   const locale = await getLocale();
   const t = await getTranslations();
+  const user = await getMe();
   const weekday = new Intl.DateTimeFormat(locale, { weekday: "long" }).format(new Date());
 
   return (
     <div className="flex w-full flex-col gap-content">
-      <h1 className="type-headline text-accent">{t("home.greeting", { name: USER_NAME })}</h1>
+      <h1 className="type-headline text-accent">{t("home.greeting", { name: user.username })}</h1>
       <section className="mx-auto flex w-full max-w-[370px] items-center justify-between rounded-[20px] bg-boxes-primary px-4 py-[14px] shadow-[0_5px_16px_rgba(53,66,56,0.07)]">
         <div className="flex items-center gap-[10px]">
           <div className="flex size-[34px] shrink-0 items-center justify-center rounded-full bg-beige">

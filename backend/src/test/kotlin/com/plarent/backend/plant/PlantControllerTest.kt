@@ -1,12 +1,18 @@
 package com.plarent.backend.plant
 
 import com.fasterxml.jackson.databind.ObjectMapper
+import com.plarent.backend.common.SecurityConfig
+import com.plarent.backend.user.AuthService
+import com.plarent.backend.user.AuthenticatedUser
+import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest
 import org.springframework.boot.test.mock.mockito.MockBean
+import org.springframework.context.annotation.Import
 import org.springframework.http.MediaType
 import org.springframework.test.web.servlet.MockMvc
+import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.patch
@@ -20,6 +26,7 @@ import org.mockito.kotlin.whenever
 import java.util.UUID
 
 @WebMvcTest(PlantController::class)
+@Import(SecurityConfig::class)
 class PlantControllerTest {
 
     @Autowired
@@ -31,12 +38,39 @@ class PlantControllerTest {
     @MockBean
     lateinit var plantService: PlantService
 
+    @MockBean
+    lateinit var authService: AuthService
+
+    private val user = AuthenticatedUser(id = UUID.randomUUID(), username = "mutti")
+
+    @BeforeEach
+    fun authenticate() {
+        whenever(authService.authenticate(TOKEN)).thenReturn(user)
+    }
+
+    private fun MockHttpServletRequestBuilder.authed() = header("Authorization", "Bearer $TOKEN")
+
+    private fun plant(id: UUID = UUID.randomUUID(), name: String = "Monstera", location: String? = null) =
+        Plant(id = id, ownerId = user.id, name = name, species = "Monstera deliciosa", location = location)
+
+    @Test
+    fun `rejects requests without a token`() {
+        mockMvc.perform(get("/api/plants"))
+            .andExpect(status().isUnauthorized)
+            .andExpect(jsonPath("$.status").value(401))
+    }
+
+    @Test
+    fun `rejects requests with an unknown token`() {
+        mockMvc.perform(get("/api/plants").header("Authorization", "Bearer nope"))
+            .andExpect(status().isUnauthorized)
+    }
+
     @Test
     fun `lists plants`() {
-        val plant = Plant(name = "Monstera", species = "Monstera deliciosa")
-        whenever(plantService.listPlants()).thenReturn(listOf(plant))
+        whenever(plantService.listPlants(user.id)).thenReturn(listOf(plant()))
 
-        mockMvc.perform(get("/api/plants"))
+        mockMvc.perform(get("/api/plants").authed())
             .andExpect(status().isOk)
             .andExpect(jsonPath("$[0].name").value("Monstera"))
     }
@@ -44,21 +78,20 @@ class PlantControllerTest {
     @Test
     fun `returns 404 for unknown plant`() {
         val id = UUID.randomUUID()
-        whenever(plantService.getPlant(id)).thenThrow(PlantNotFoundException(id))
+        whenever(plantService.getPlant(id, user.id)).thenThrow(PlantNotFoundException(id))
 
-        mockMvc.perform(get("/api/plants/$id"))
+        mockMvc.perform(get("/api/plants/$id").authed())
             .andExpect(status().isNotFound)
     }
 
     @Test
     fun `creates a plant`() {
         val request = CreatePlantRequest(name = "Monstera", species = "Monstera deliciosa")
-        whenever(plantService.createPlant(any())).thenReturn(
-            Plant(name = request.name, species = request.species),
-        )
+        whenever(plantService.createPlant(eq(user.id), any())).thenReturn(plant())
 
         mockMvc.perform(
             post("/api/plants")
+                .authed()
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(request)),
         )
@@ -70,12 +103,13 @@ class PlantControllerTest {
     fun `updates a plant`() {
         val id = UUID.randomUUID()
         val request = UpdatePlantRequest(name = "Monty", species = "Monstera deliciosa", location = "Kitchen")
-        whenever(plantService.updatePlant(eq(id), any())).thenReturn(
-            Plant(id = id, name = "Monty", species = "Monstera deliciosa", location = "Kitchen"),
+        whenever(plantService.updatePlant(eq(id), eq(user.id), any())).thenReturn(
+            plant(id = id, name = "Monty", location = "Kitchen"),
         )
 
         mockMvc.perform(
             patch("/api/plants/$id")
+                .authed()
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(request)),
         )
@@ -87,11 +121,12 @@ class PlantControllerTest {
     @Test
     fun `returns 404 when updating unknown plant`() {
         val id = UUID.randomUUID()
-        whenever(plantService.updatePlant(eq(id), any())).thenThrow(PlantNotFoundException(id))
+        whenever(plantService.updatePlant(eq(id), eq(user.id), any())).thenThrow(PlantNotFoundException(id))
         val request = UpdatePlantRequest(name = "Monty", species = "Monstera deliciosa")
 
         mockMvc.perform(
             patch("/api/plants/$id")
+                .authed()
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(request)),
         )
@@ -102,6 +137,7 @@ class PlantControllerTest {
     fun `rejects a blank name on update`() {
         mockMvc.perform(
             patch("/api/plants/${UUID.randomUUID()}")
+                .authed()
                 .contentType(MediaType.APPLICATION_JSON)
                 .content("""{"name": "  "}"""),
         )
@@ -112,18 +148,18 @@ class PlantControllerTest {
     fun `deletes a plant`() {
         val id = UUID.randomUUID()
 
-        mockMvc.perform(delete("/api/plants/$id"))
+        mockMvc.perform(delete("/api/plants/$id").authed())
             .andExpect(status().isNoContent)
 
-        verify(plantService).deletePlant(id)
+        verify(plantService).deletePlant(id, user.id)
     }
 
     @Test
     fun `returns 404 when deleting unknown plant`() {
         val id = UUID.randomUUID()
-        whenever(plantService.deletePlant(id)).thenThrow(PlantNotFoundException(id))
+        whenever(plantService.deletePlant(id, user.id)).thenThrow(PlantNotFoundException(id))
 
-        mockMvc.perform(delete("/api/plants/$id"))
+        mockMvc.perform(delete("/api/plants/$id").authed())
             .andExpect(status().isNotFound)
     }
 
@@ -133,6 +169,7 @@ class PlantControllerTest {
 
         mockMvc.perform(
             post("/api/plants")
+                .authed()
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(request)),
         )
@@ -145,9 +182,14 @@ class PlantControllerTest {
 
         mockMvc.perform(
             post("/api/plants")
+                .authed()
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(request)),
         )
             .andExpect(status().isBadRequest)
+    }
+
+    companion object {
+        private const val TOKEN = "test-token"
     }
 }

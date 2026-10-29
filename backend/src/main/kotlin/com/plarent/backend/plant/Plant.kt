@@ -14,6 +14,9 @@ class Plant(
     @Id
     val id: UUID = UUID.randomUUID(),
 
+    @Column(name = "owner_id", nullable = false, updatable = false)
+    val ownerId: UUID,
+
     @Column(nullable = false, length = 100)
     var name: String,
 

@@ -33,9 +33,11 @@ docker run -d --name "$id-app" --network "$net" -p "$port:8080" \
   -e SPRING_DATASOURCE_USERNAME=plarent -e SPRING_DATASOURCE_PASSWORD=plarent \
   "$image" > /dev/null
 
-api=http://localhost:$port/api/plants
+base=http://localhost:$port/api
+api=$base/plants
+# Any HTTP response (unauthenticated requests get a 401) means the app is up.
 for _ in $(seq 60); do
-  curl -sf -o /dev/null "$api" && break
+  curl -s -o /dev/null "$api" && break
   sleep 1
 done
 
@@ -50,13 +52,24 @@ expect() { # <expected status> <description> <curl args...>
   echo "ok   $what ($got)"
 }
 
-expect 201 "create plant" -H 'Content-Type: application/json' \
+expect 401 "reject unauthenticated request" "$api"
+expect 201 "register" -H 'Content-Type: application/json' \
+  -d '{"username":"smoke","password":"correct horse"}' "$base/auth/register"
+expect 200 "login" -H 'Content-Type: application/json' \
+  -d '{"username":"smoke","password":"correct horse"}' "$base/auth/login"
+token=$(grep -o '"token":"[^"]*"' /tmp/$id.body | cut -d'"' -f4)
+auth=(-H "Authorization: Bearer $token")
+expect 200 "get current user" "${auth[@]}" "$base/me"
+
+expect 201 "create plant" "${auth[@]}" -H 'Content-Type: application/json' \
   -d '{"name":"Monstera","species":"Monstera deliciosa","acquiredDate":"2024-03-01"}' "$api"
 plant=$(grep -o '"id":"[^"]*"' /tmp/$id.body | cut -d'"' -f4)
-expect 200 "list plants" "$api"
+expect 200 "list plants" "${auth[@]}" "$api"
 grep -q "$plant" /tmp/$id.body || { echo "FAIL list plants: created plant missing"; exit 1; }
-expect 200 "get plant" "$api/$plant"
-expect 400 "reject invalid plant" -H 'Content-Type: application/json' -d '{"name":"","species":""}' "$api"
-expect 204 "delete plant" -X DELETE "$api/$plant"
-expect 404 "get deleted plant" "$api/$plant"
+expect 200 "get plant" "${auth[@]}" "$api/$plant"
+expect 400 "reject invalid plant" "${auth[@]}" -H 'Content-Type: application/json' -d '{"name":"","species":""}' "$api"
+expect 204 "delete plant" "${auth[@]}" -X DELETE "$api/$plant"
+expect 404 "get deleted plant" "${auth[@]}" "$api/$plant"
+expect 204 "logout" "${auth[@]}" -X POST "$base/auth/logout"
+expect 401 "reject logged-out token" "${auth[@]}" "$base/me"
 rm -f /tmp/$id.body

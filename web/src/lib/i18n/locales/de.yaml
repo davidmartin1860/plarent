@@ -78,3 +78,28 @@ profile:
     label: Darstellung
     light: Hell
     dark: Dunkel
+
+auth:
+  username: Benutzername
+  password: Passwort
+  usernameHint: "3–32 Zeichen: Buchstaben, Ziffern, '_', '.' oder '-'"
+  passwordHint: Mindestens 8 Zeichen.
+  logout: Abmelden
+  login:
+    title: Willkommen zurück
+    intro: Melde dich an, um deine Pflanzen zu sehen. 🌿
+    submit: Anmelden
+    noAccount: "Neu hier?"
+    toRegister: Konto erstellen
+  register:
+    title: Konto erstellen
+    intro: Wähle einen Benutzernamen und ein Passwort, um dein grünes Abenteuer zu starten. 🌱
+    submit: Konto erstellen
+    haveAccount: Du hast schon ein Konto?
+    toLogin: Anmelden
+  errors:
+    invalidCredentials: Falscher Benutzername oder falsches Passwort.
+    tooManyAttempts: Zu viele fehlgeschlagene Versuche. Bitte versuche es in ein paar Minuten erneut.
+    usernameTaken: Dieser Benutzername ist bereits vergeben.
+    invalidInput: "Bitte prüfe deine Eingaben: Benutzernamen haben 3–32 Zeichen, Passwörter mindestens 8."
+    unexpected: Etwas ist schiefgelaufen. Bitte versuche es erneut.

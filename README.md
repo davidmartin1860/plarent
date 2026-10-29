@@ -39,11 +39,40 @@ run via Docker Compose.
 
 ## API contract (v1 vertical slice)
 
-All clients (web, Android, iOS) talk to the same REST contract:
+All clients (web, Android, iOS) talk to the same REST contract.
 
-- `GET /api/plants` → `200`, array of `Plant`
+### Authentication
+
+Users sign up with a username and password (no email, no second factor):
+
+- `POST /api/auth/register` → `{"username", "password"}` → `201 AuthResponse`
+  (`400` on validation failure, `409` if the username is taken)
+- `POST /api/auth/login` → `{"username", "password"}` → `200 AuthResponse`
+  (`401` on wrong credentials, `429` after 10 failures in 15 minutes)
+- `POST /api/auth/logout` → `204`, revokes the token
+- `GET /api/me` → `200 User`
+
+Usernames are 3-32 characters (`a-z`, `0-9`, `_`, `.`, `-`) and case-insensitive.
+Passwords must be at least 8 characters and at most 72 bytes.
+`AuthResponse` is `{"token": "...", "user": User}` and `User` is `{"id", "username", "createdAt"}`.
+
+Every other endpoint requires `Authorization: Bearer <token>` and returns `401`
+without a valid one. Tokens are opaque, last 30 days, and are stored only as a
+SHA-256 hash in the database. The web app keeps the token in an httpOnly cookie
+and forwards it from its server, so the browser never talks to the API directly.
+
+> **Mobile:** the Android and iOS apps don't send a token yet, so they get
+> `401`s until they get login screens.
+
+### Plants
+
+Plants belong to the user who created them. Other users' plants answer `404`.
+
+- `GET /api/plants` → `200`, array of the current user's `Plant`s
 - `GET /api/plants/{id}` → `200 Plant` or `404`
 - `POST /api/plants` → body below → `201 Plant` (or `400` on validation failure)
+- `PATCH /api/plants/{id}` → any subset of the body below → `200 Plant` or `404`
+- `DELETE /api/plants/{id}` → `204` or `404`
 
 ```jsonc
 // Plant

@@ -39,6 +39,7 @@ services:
       # Server-side only (used by Next.js Server Components/Actions running
       # inside this container) - reaches the backend over the compose network.
       API_URL: ${API_URL:-http://backend:8080/api}
+      SESSION_COOKIE_SECURE: ${SESSION_COOKIE_SECURE:-true}
     ports:
       - "${WEB_PORT:-3000}:3000"
     depends_on:

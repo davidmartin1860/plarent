@@ -1,48 +1,36 @@
 package com.plarent.backend.plant
 
+import com.plarent.backend.PostgresIntegrationTest
+import com.plarent.backend.user.User
+import com.plarent.backend.user.UserRepository
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.boot.test.context.SpringBootTest
-import org.springframework.test.context.DynamicPropertyRegistry
-import org.springframework.test.context.DynamicPropertySource
-import org.testcontainers.containers.PostgreSQLContainer
-import org.testcontainers.junit.jupiter.Container
-import org.testcontainers.junit.jupiter.Testcontainers
+import java.util.UUID
 import kotlin.test.assertEquals
-import kotlin.test.assertTrue
+import kotlin.test.assertNotNull
+import kotlin.test.assertNull
 
-@Testcontainers
-@SpringBootTest
-class PlantRepositoryIntegrationTest {
+class PlantRepositoryIntegrationTest : PostgresIntegrationTest() {
 
     @Autowired
     lateinit var plantRepository: PlantRepository
 
+    @Autowired
+    lateinit var userRepository: UserRepository
+
+    private fun newUser() = userRepository.save(User(username = "user-${UUID.randomUUID().toString().take(8)}", passwordHash = "x"))
+
     @Test
-    fun `saves and reloads a plant`() {
-        val saved = plantRepository.save(Plant(name = "Monstera", species = "Monstera deliciosa"))
+    fun `saves and reloads a plant for its owner only`() {
+        val owner = newUser()
+        val other = newUser()
+        val saved = plantRepository.save(Plant(ownerId = owner.id, name = "Monstera", species = "Monstera deliciosa"))
 
-        val found = plantRepository.findById(saved.id)
+        val found = plantRepository.findByIdAndOwnerId(saved.id, owner.id)
 
-        assertTrue(found.isPresent)
-        assertEquals("Monstera", found.get().name)
-    }
-
-    companion object {
-        @Container
-        @JvmStatic
-        val postgres = PostgreSQLContainer("postgres:18-alpine").apply {
-            withDatabaseName("plarent")
-            withUsername("plarent")
-            withPassword("plarent")
-        }
-
-        @DynamicPropertySource
-        @JvmStatic
-        fun registerProperties(registry: DynamicPropertyRegistry) {
-            registry.add("spring.datasource.url", postgres::getJdbcUrl)
-            registry.add("spring.datasource.username", postgres::getUsername)
-            registry.add("spring.datasource.password", postgres::getPassword)
-        }
+        assertNotNull(found)
+        assertEquals("Monstera", found.name)
+        assertNull(plantRepository.findByIdAndOwnerId(saved.id, other.id))
+        assertEquals(listOf(saved.id), plantRepository.findAllByOwnerIdOrderByCreatedAtDesc(owner.id).map { it.id })
     }
 }

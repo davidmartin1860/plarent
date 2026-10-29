@@ -5,6 +5,7 @@ export interface Plant {
   location: string | null;
   acquiredDate: string | null;
   notes: string | null;
+  hasImage: boolean;
   createdAt: string;
   updatedAt: string;
 }

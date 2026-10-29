@@ -15,6 +15,7 @@ data class Plant(
     val location: String?,
     val acquiredDate: String?,
     val notes: String?,
+    val hasImage: Boolean = false,
     val createdAt: String,
     val updatedAt: String,
 )

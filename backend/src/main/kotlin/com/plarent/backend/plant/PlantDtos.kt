@@ -14,6 +14,7 @@ data class PlantResponse(
     val location: String?,
     val acquiredDate: LocalDate?,
     val notes: String?,
+    val hasImage: Boolean,
     val createdAt: Instant,
     val updatedAt: Instant,
 ) {
@@ -25,6 +26,7 @@ data class PlantResponse(
             location = plant.location,
             acquiredDate = plant.acquiredDate,
             notes = plant.notes,
+            hasImage = plant.imageContentType != null,
             createdAt = plant.createdAt,
             updatedAt = plant.updatedAt,
         )

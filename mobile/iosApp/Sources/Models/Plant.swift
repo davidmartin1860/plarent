@@ -7,6 +7,7 @@ struct Plant: Codable, Identifiable {
     let location: String?
     let acquiredDate: String?
     let notes: String?
+    let hasImage: Bool
     let createdAt: String
     let updatedAt: String
 }

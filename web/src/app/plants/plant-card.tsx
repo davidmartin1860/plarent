@@ -1,7 +1,10 @@
 import Link from "next/link";
 import type { Plant } from "@/lib/types";
+import { plantImageUrl } from "./plant-form-data";
 
 export function PlantCard({ plant }: { plant: Plant }) {
+  const imageUrl = plantImageUrl(plant);
+
   return (
     <Link
       href={`/plants/${plant.id}`}
@@ -16,9 +19,12 @@ export function PlantCard({ plant }: { plant: Plant }) {
         {/* The care intervals (watering, misting) should be shown here once the API stores them. */}
       </div>
 
-      {/* Placeholder until the API can store plant photos. */}
-      <div className="mr-[10px] flex size-[100px] shrink-0 items-center justify-center rounded-full bg-beige">
-        <img src="/home/day-plant.svg" alt="" width={36} height={52} />
+      <div className="mr-[10px] flex size-[100px] shrink-0 items-center justify-center overflow-hidden rounded-full bg-beige">
+        {imageUrl ? (
+          <img src={imageUrl} alt="" className="size-full object-cover" />
+        ) : (
+          <img src="/home/day-plant.svg" alt="" width={36} height={52} />
+        )}
       </div>
     </Link>
   );

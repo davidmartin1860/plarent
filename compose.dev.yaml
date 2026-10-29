@@ -12,6 +12,9 @@ services:
     volumes:
       # Keep the Gradle cache across container restarts/rebuilds.
       - backend-gradle-cache:/root/.gradle
+      # compose.dev.yaml replaces the backend volume list, so the image store
+      # declared in compose.yaml has to be repeated here.
+      - plant-images:/data/plant-images
     develop:
       watch:
         - action: sync

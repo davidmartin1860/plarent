@@ -14,6 +14,15 @@ spring:
         format_sql: true
   flyway:
     enabled: true
+  servlet:
+    multipart:
+      max-file-size: 5MB
+      max-request-size: 6MB
+
+plarent:
+  images:
+    directory: ${PLANT_IMAGE_DIR:./data/plant-images}
+    max-bytes: 5242880
 
 server:
   port: 8080

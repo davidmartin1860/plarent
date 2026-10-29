@@ -29,6 +29,9 @@ class Plant(
     @Column(length = 2000)
     var notes: String? = null,
 
+    @Column(name = "image_content_type", length = 100)
+    var imageContentType: String? = null,
+
     @Column(name = "created_at", nullable = false, updatable = false)
     val createdAt: Instant = Instant.now(),
 

@@ -7,10 +7,13 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest
 import org.springframework.boot.test.mock.mockito.MockBean
 import org.springframework.http.MediaType
 import org.springframework.test.web.servlet.MockMvc
+import org.springframework.mock.web.MockMultipartFile
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.multipart
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.patch
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post
+import org.springframework.test.web.servlet.result.MockMvcResultMatchers.content
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
 import org.mockito.kotlin.any
@@ -39,6 +42,7 @@ class PlantControllerTest {
         mockMvc.perform(get("/api/plants"))
             .andExpect(status().isOk)
             .andExpect(jsonPath("$[0].name").value("Monstera"))
+            .andExpect(jsonPath("$[0].hasImage").value(false))
     }
 
     @Test
@@ -149,5 +153,57 @@ class PlantControllerTest {
                 .content(objectMapper.writeValueAsString(request)),
         )
             .andExpect(status().isBadRequest)
+    }
+
+    @Test
+    fun `uploads an image`() {
+        val id = UUID.randomUUID()
+        val bytes = byteArrayOf(0xFF.toByte(), 0xD8.toByte(), 0xFF.toByte())
+        whenever(plantService.saveImage(eq(id), any(), eq("image/jpeg"))).thenReturn(
+            Plant(id = id, name = "Monstera", species = "Monstera deliciosa", imageContentType = "image/jpeg"),
+        )
+
+        mockMvc.perform(
+            multipart("/api/plants/$id/image")
+                .file(MockMultipartFile("image", "plant.jpg", "image/jpeg", bytes)),
+        )
+            .andExpect(status().isOk)
+            .andExpect(jsonPath("$.hasImage").value(true))
+    }
+
+    @Test
+    fun `returns the stored image`() {
+        val id = UUID.randomUUID()
+        val bytes = byteArrayOf(0x89.toByte(), 0x50, 0x4E, 0x47)
+        whenever(plantService.getImage(id)).thenReturn(StoredPlantImage(bytes, "image/png"))
+
+        mockMvc.perform(get("/api/plants/$id/image"))
+            .andExpect(status().isOk)
+            .andExpect(content().contentType(MediaType.IMAGE_PNG))
+            .andExpect(content().bytes(bytes))
+    }
+
+    @Test
+    fun `returns 404 when the plant has no image`() {
+        val id = UUID.randomUUID()
+        whenever(plantService.getImage(id)).thenThrow(PlantImageNotFoundException(id))
+
+        mockMvc.perform(get("/api/plants/$id/image"))
+            .andExpect(status().isNotFound)
+    }
+
+    @Test
+    fun `rejects an invalid image`() {
+        val id = UUID.randomUUID()
+        whenever(plantService.saveImage(eq(id), any(), any())).thenThrow(
+            InvalidPlantImageException("Only JPEG, PNG, WEBP and GIF images are allowed"),
+        )
+
+        mockMvc.perform(
+            multipart("/api/plants/$id/image")
+                .file(MockMultipartFile("image", "notes.txt", "text/plain", "hello".toByteArray())),
+        )
+            .andExpect(status().isBadRequest)
+            .andExpect(jsonPath("$.message").value("Only JPEG, PNG, WEBP and GIF images are allowed"))
     }
 }

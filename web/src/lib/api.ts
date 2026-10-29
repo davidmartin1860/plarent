@@ -54,6 +54,32 @@ export async function updatePlant(id: string, input: Partial<PlantInput>): Promi
   return res.json();
 }
 
+export async function uploadPlantImage(id: string, file: File): Promise<Plant> {
+  const body = new FormData();
+  body.append("image", file, file.name || "plant");
+  const res = await fetch(`${API_URL}/plants/${id}/image`, { method: "POST", body });
+  if (!res.ok) {
+    throw new ApiError(await apiErrorMessage(res, `Failed to upload image for plant ${id}`), res.status);
+  }
+  return res.json();
+}
+
+export async function fetchPlantImage(id: string): Promise<Response> {
+  return fetch(`${API_URL}/plants/${id}/image`, { cache: "no-store" });
+}
+
+async function apiErrorMessage(res: Response, fallback: string): Promise<string> {
+  try {
+    const body = (await res.json()) as { message?: string };
+    if (body.message) {
+      return body.message;
+    }
+  } catch {
+    // The body is not JSON.
+  }
+  return `${fallback} (${res.status})`;
+}
+
 export async function deletePlant(id: string): Promise<void> {
   const res = await fetch(`${API_URL}/plants/${id}`, { method: "DELETE" });
   if (!res.ok) {

@@ -37,8 +37,10 @@ RUN ./gradlew --no-daemon nativeCompile -x test
 # The native binary links glibc and zlib dynamically, so distroless/base won't do.
 FROM debian:12-slim AS runtime
 WORKDIR /app
-RUN groupadd -r plarent && useradd -r -g plarent plarent
+RUN groupadd -r plarent && useradd -r -g plarent plarent \
+    && mkdir -p /data/plant-images && chown plarent:plarent /data/plant-images
 COPY --from=build /app/build/native/nativeCompile/backend app
+ENV PLANT_IMAGE_DIR=/data/plant-images
 USER plarent
 EXPOSE 8080
 # Max heap defaults to 64m (set at build time); pass e.g. -Xmx128m as the command to override.

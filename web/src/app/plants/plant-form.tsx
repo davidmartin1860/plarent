@@ -3,6 +3,7 @@ import type { Translator } from "@/lib/i18n";
 import { getTranslations } from "@/lib/i18n/server";
 import type { Plant } from "@/lib/types";
 import { ImagePicker } from "./image-picker";
+import { plantImageUrl } from "./plant-form-data";
 
 // Shared by the new and edit screens. When `plant` is given, the fields start with its values.
 export async function PlantForm({
@@ -17,7 +18,7 @@ export async function PlantForm({
   return (
     <form action={action} className="flex flex-col gap-[14px]">
       <div className="flex justify-end">
-        <ImagePicker />
+        <ImagePicker savedImageUrl={plant ? plantImageUrl(plant) : null} />
       </div>
 
       <TextField name="name" placeholder={t("plants.new.namePlaceholder")} defaultValue={plant?.name} required />

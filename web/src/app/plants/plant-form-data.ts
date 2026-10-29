@@ -26,3 +26,18 @@ export function parsePlantForm(formData: FormData): PlantInput {
     notes: optional("notes"),
   };
 }
+
+export function imageFromForm(formData: FormData): File | null {
+  const value = formData.get("image");
+  if (!(value instanceof File) || value.size === 0) {
+    return null;
+  }
+  return value;
+}
+
+export function plantImageUrl(plant: { id: string; updatedAt: string; hasImage: boolean }): string | null {
+  if (!plant.hasImage) {
+    return null;
+  }
+  return `/plants/${plant.id}/image?v=${encodeURIComponent(plant.updatedAt)}`;
+}

@@ -44,6 +44,8 @@ All clients (web, Android, iOS) talk to the same REST contract:
 - `GET /api/plants` → `200`, array of `Plant`
 - `GET /api/plants/{id}` → `200 Plant` or `404`
 - `POST /api/plants` → body below → `201 Plant` (or `400` on validation failure)
+- `POST /api/plants/{id}/image` → multipart field `image` (JPEG, PNG, WEBP or GIF, max 5 MB) → `200 Plant`
+- `GET /api/plants/{id}/image` → image bytes, or `404` when the plant has no photo
 
 ```jsonc
 // Plant
@@ -54,6 +56,7 @@ All clients (web, Android, iOS) talk to the same REST contract:
   "location": "Living room window",  // nullable
   "acquiredDate": "2024-03-01",      // nullable, YYYY-MM-DD
   "notes": "Loves bright indirect light", // nullable
+  "hasImage": true,
   "createdAt": "2026-10-01T17:14:12.675Z",
   "updatedAt": "2026-10-01T17:14:12.675Z"
 }

@@ -25,8 +25,11 @@ services:
       SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/${POSTGRES_DB:-plarent}
       SPRING_DATASOURCE_USERNAME: ${POSTGRES_USER:-plarent}
       SPRING_DATASOURCE_PASSWORD: ${POSTGRES_PASSWORD:-changeme}
+      PLANT_IMAGE_DIR: /data/plant-images
     ports:
       - "${BACKEND_PORT:-8080}:8080"
+    volumes:
+      - plant-images:/data/plant-images
     depends_on:
       postgres:
         condition: service_healthy
@@ -46,3 +49,4 @@ services:
 
 volumes:
   postgres-data:
+  plant-images:

@@ -47,5 +47,8 @@ web/src/lib/i18n/locales/*.generated.ts
 # Postgres local data volume (bind mounts, if used)
 pgdata/
 
+# Plant photos written when the backend runs on the host (bootRun)
+backend/data/
+
 # Logs
 *.log
